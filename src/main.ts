@@ -59,7 +59,7 @@ export function handle({handler, validate}: HandlerOptions): LambdaHandler {
                 console.error(e);
                 e = Boom.internal();
             }
-            callback(e, {
+            callback(null, {
                 statusCode: e.output.statusCode,
                 headers,
                 body: JSON.stringify(e.output.payload)
