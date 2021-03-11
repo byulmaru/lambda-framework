@@ -5,7 +5,7 @@ import * as Boom from '@hapi/boom';
 export interface HandlerOptions {
     validate?: {
         query?: Schema,
-        path?: Schema,
+        param?: Schema,
         body?: Schema
     };
 }
@@ -22,8 +22,8 @@ export function handle(handler: Handler, options: HandlerOptions = {}): LambdaHa
                     throw Boom.badRequest(validateResult.error.message);
                 }
             }
-            if(options.validate?.path) {
-                const validateResult = options.validate.path.validate(r.path);
+            if(options.validate?.param) {
+                const validateResult = options.validate.param.validate(r.param);
                 if(validateResult.error) {
                     throw Boom.badRequest(validateResult.error.message);
                 }
