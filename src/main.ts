@@ -10,7 +10,7 @@ export interface HandlerOptions {
     };
 }
 
-export function handle(handler: Handler, options: HandlerOptions): LambdaHandler {
+export function handle(handler: Handler, options: HandlerOptions = {}): LambdaHandler {
     return async function(event, content, callback) {
         let headers: Headers = {};
         let statusCode = 200;
