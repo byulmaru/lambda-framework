@@ -45,6 +45,10 @@ export function handle({handler, validate}: HandlerOptions): LambdaHandler {
                 },
                 header(name: string, value: string | number): void {
                     headers[name] = value.toString();
+                },
+                redirect(location: string, options?: {statusCode?: number}) {
+                    headers.Location = location;
+                    statusCode = options?.statusCode || 302;
                 }
             });
             let body = typeof response === 'string' ? response : JSON.stringify(response);

@@ -12,7 +12,8 @@ export interface Handler {
 }
 interface ResponseHandler {
     code(statusCode: number): void,
-    header(name: string, value: string | number): void
+    header(name: string, value: string | number): void,
+    redirect(location: string, options?: {statusCode?: number}): void
 }
 interface LambdaRequest {
     path: string,
