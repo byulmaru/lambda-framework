@@ -26,7 +26,7 @@ interface LambdaRequest {
 export class Request {
     private readonly headers: Headers;
     public query: any;
-    public param: any;
+    public params: any;
     public body: any;
     public bodyPromise?: Promise<void>
     constructor(request: LambdaRequest) {
@@ -35,7 +35,7 @@ export class Request {
             this.headers[key.toLowerCase()] = value;
         }
         this.query = request.queryStringParameters || {};
-        this.param = request.pathParameters || {};
+        this.params = request.pathParameters || {};
         switch(this.getHeaders('Content-Type').toLowerCase().split(';')[0]) {
             case 'application/x-www-form-urlencoded':
                 this.body = parse(request.body);

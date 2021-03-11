@@ -8,7 +8,7 @@ interface HandlerOptions {
 }
 interface ValidateOptions {
     query?: Schema,
-    param?: Schema,
+    params?: Schema,
     body?: Schema
 }
 
@@ -25,8 +25,8 @@ export function handle({handler, validate}: HandlerOptions): LambdaHandler {
                         throw Boom.badRequest(validateResult.error.message);
                     }
                 }
-                if(validate.param) {
-                    const validateResult = validate.param.validate(r.param);
+                if(validate.params) {
+                    const validateResult = validate.params.validate(r.params);
                     if(validateResult.error) {
                         throw Boom.badRequest(validateResult.error.message);
                     }
