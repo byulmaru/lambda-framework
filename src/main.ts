@@ -2,36 +2,40 @@ import {Headers, Handler, LambdaHandler, Request} from './lambda-handler';
 import {Schema} from 'joi';
 import * as Boom from '@hapi/boom';
 
-export interface HandlerOptions {
-    validate?: {
-        query?: Schema,
-        param?: Schema,
-        body?: Schema
-    };
+interface HandlerOptions {
+    handler: Handler,
+    validate?: ValidateOptions
+}
+interface ValidateOptions {
+    query?: Schema,
+    param?: Schema,
+    body?: Schema
 }
 
-export function handle(handler: Handler, options: HandlerOptions = {}): LambdaHandler {
+export function handle({handler, validate}: HandlerOptions): LambdaHandler {
     return async function(event, content, callback) {
         let headers: Headers = {};
         let statusCode = 200;
         try {
             let r = new Request(event);
-            if(options.validate?.query) {
-                const validateResult = options.validate.query.validate(r.query);
-                if(validateResult.error) {
-                    throw Boom.badRequest(validateResult.error.message);
+            if(validate) {
+                if(validate.query) {
+                    const validateResult = validate.query.validate(r.query);
+                    if(validateResult.error) {
+                        throw Boom.badRequest(validateResult.error.message);
+                    }
                 }
-            }
-            if(options.validate?.param) {
-                const validateResult = options.validate.param.validate(r.param);
-                if(validateResult.error) {
-                    throw Boom.badRequest(validateResult.error.message);
+                if(validate.param) {
+                    const validateResult = validate.param.validate(r.param);
+                    if(validateResult.error) {
+                        throw Boom.badRequest(validateResult.error.message);
+                    }
                 }
-            }
-            if(options.validate?.body) {
-                const validateResult = options.validate.body.validate(r.body);
-                if(validateResult.error) {
-                    throw Boom.badRequest(validateResult.error.message);
+                if(validate.body) {
+                    const validateResult = validate.body.validate(r.body);
+                    if(validateResult.error) {
+                        throw Boom.badRequest(validateResult.error.message);
+                    }
                 }
             }
 
