@@ -1,8 +1,11 @@
 {
   "name": "@kos.moe/lambda-framework",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "main": "dist/main.js",
   "author": "robin* <robin_maki@planet.moe>",
+  "engines": {
+    "node": ">12.0.0"
+  },
   "devDependencies": {
     "@types/qs": "^6.9.6",
     "typescript": "^4.2.3"
