@@ -1,6 +1,6 @@
 {
   "name": "@kos.moe/lambda-framework",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "main": "dist/main.js",
   "author": "robin* <robin_maki@planet.moe>",
   "engines": {

@@ -1,6 +1,7 @@
-import {Headers, Handler, LambdaHandler, Request} from './lambda-handler';
+import {Headers, LambdaHandler, Request} from './lambda-handler';
 import {Schema} from 'joi';
-import * as Boom from '@hapi/boom';
+import Boom from '@hapi/boom';
+import fs from 'fs/promises';
 
 interface HandlerOptions {
     handler: Handler,
@@ -10,6 +11,15 @@ interface ValidateOptions {
     query?: Schema,
     params?: Schema,
     body?: Schema
+}
+interface Handler {
+    (request: Request, handler: ResponseHandler): Promise<string | object | void | undefined>;
+}
+interface ResponseHandler {
+    code(statusCode: number): void,
+    header(name: string, value: string | number): void,
+    redirect(location: string, options?: {statusCode?: number}): void,
+    file(path: string, encoding: BufferEncoding): Promise<string> | undefined
 }
 
 export function handle({handler, validate}: HandlerOptions): LambdaHandler {
@@ -49,6 +59,15 @@ export function handle({handler, validate}: HandlerOptions): LambdaHandler {
                 redirect(location: string, options?: {statusCode?: number}) {
                     headers.Location = location;
                     statusCode = options?.statusCode || 302;
+                },
+                file(path: string, encoding: BufferEncoding = 'utf8') {
+                    try {
+                        return fs.readFile(path, {encoding}) as Promise<string>;
+                    }
+                    catch(e) {
+                        console.error(e);
+                        throw Boom.notFound();
+                    }
                 }
             });
             let body = typeof response === 'string' ? response : JSON.stringify(response);

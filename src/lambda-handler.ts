@@ -7,14 +7,6 @@ export interface Headers {
 export interface LambdaHandler {
     (event: LambdaRequest, context: any, callback: (error: object | null, response: {statusCode: number, headers: Headers, body: string}) => void): void
 }
-export interface Handler {
-    (request: Request, handler: ResponseHandler): Promise<string | object | void>
-}
-interface ResponseHandler {
-    code(statusCode: number): void,
-    header(name: string, value: string | number): void,
-    redirect(location: string, options?: {statusCode?: number}): void
-}
 interface LambdaRequest {
     path: string,
     httpMethod: string,
