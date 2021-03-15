@@ -36,7 +36,7 @@ export class Request {
         }
         this.query = request.queryStringParameters || {};
         this.params = request.pathParameters || {};
-        switch(this.getHeaders('Content-Type').toLowerCase().split(';')[0]) {
+        switch(this.getHeaders('Content-Type')?.toLowerCase().split(';')[0]) {
             case 'application/x-www-form-urlencoded':
                 this.body = parse(request.body);
                 break;
