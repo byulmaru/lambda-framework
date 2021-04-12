@@ -17,7 +17,7 @@ interface Handler {
     (request: Request, handler: ResponseHandler): Promise<string | object | void | undefined>;
 }
 export interface Middleware {
-    (...a: Parameters<Handler>): Promise<void>
+    (request: Request, handler: ResponseHandler): Promise<void>
 }
 interface ResponseHandler {
     code(statusCode: number): void,
