@@ -16,7 +16,7 @@ interface ValidateOptions {
 interface Handler {
     (request: Request, handler: ResponseHandler): Promise<string | object | void | undefined>;
 }
-interface Middleware {
+export interface Middleware {
     (...a: Parameters<Handler>): Promise<void>
 }
 interface ResponseHandler {
