@@ -21,6 +21,7 @@ export class Request {
     public params: any;
     public body: any;
     public bodyPromise?: Promise<void>
+    public custom: any = {};
     constructor(request: LambdaRequest) {
         this.headers = {};
         for(const [key, value] of Object.entries(request.headers)) {
